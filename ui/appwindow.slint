@@ -1,0 +1,22 @@
+import { Button, VerticalBox, TextEdit } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    width: 400px;
+    height: 300px;
+    in-out property <string> file_content: "";
+    callback open_file();
+
+    VerticalBox {
+        Button {
+            text: "Open File";
+            clicked => {
+                open_file()
+            }
+        }
+
+        TextEdit {
+            text: file_content;
+            read-only: true;
+        }
+    }
+}
