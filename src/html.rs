@@ -16,7 +16,7 @@ pub fn parse_html(html_content: &str) -> Result<String, Error> {
     for element in document.select(&selector) {
         extracted_content.push_str(&element.inner_html());
     }
-    println!("[INFO] html content: {}", extracted_content);
+    println!("[INFO](html.rs) html content: {}", extracted_content);
 
     // 转换提取的 HTML 为 Markdown
     let markdown = html_to_markdown(&extracted_content);
@@ -32,24 +32,24 @@ pub fn markdown_to_html(markdown_content: &str) -> String {
 
     let mut markdown_output = String::new();
     html::push_html(&mut markdown_output, parser);
-    println!("[INFO] markdown: {}", markdown_output);
+    println!("[INFO](html.rs) markdown: {}", markdown_output);
     markdown_output
 }
 
 /// 将 html 转换为 markdown
 pub fn html_to_markdown(html_content: &str) -> String {
-    println!("[INFO] 开始将 html 转换为 markdown");
+    println!("[INFO](html.rs) 开始将 html 转换为 markdown");
 
     // 输出原始 HTML 的前 100 个字符
     let html_preview: String = html_content.chars().take(100).collect();
-    println!("[INFO] 原始 html: \n{}", &html_preview);
+    println!("[INFO](html.rs) 原始 html: \n{}", &html_preview);
 
     // 使用 html2md 库解析 HTML
     let markdown_content = html2md::parse_html(html_content);
 
     // 输出转换后 Markdown 的前 100 个字符
     let markdown_preview: String = markdown_content.chars().take(100).collect();
-    println!("[INFO] 转换后的 markdown: \n{}", &markdown_preview);
+    println!("[INFO](html.rs) 转换后的 markdown: \n{}", &markdown_preview);
 
     markdown_content
 }

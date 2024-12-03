@@ -29,8 +29,8 @@ fn main() {
                         main_window.set_file_content(content.into());
                     }
                     Err(e) => {
-                        println!("Error reading EPUB: {}", e);
-                        main_window.set_file_content("Error reading EPUB file".into());
+                        println!("[Error](main.rs) reading EPUB: {}", e);
+                        main_window.set_file_content("[Error](main.rs) reading EPUB file".into());
                     }
                 }
             }

@@ -5,7 +5,7 @@ use std::io::{Read, Seek};
 use std::path::{self, Path};
 /// 传入 epub 路径，并解析
 pub fn parse_epub(file_path: &Path) -> Result<String, Box<dyn std::error::Error>> {
-    println!("文件路径: {:?}", file_path);
+    println!("[INFO](epub.rs) 文件路径: {:?}", file_path);
 
     let mut doc = EpubDoc::new(file_path)?;
 
@@ -14,12 +14,12 @@ pub fn parse_epub(file_path: &Path) -> Result<String, Box<dyn std::error::Error>
     // println!("获取页数: {:?}", doc.get_num_pages());
 
     for (id, _) in doc.resources.iter() {
-        println!("可用资源 ID: {}", id);
+        println!("[INFO](epub.rs) 可用资源 ID: {}", id);
     }
     let _ = read_page();
     println!("\n------");
-    println!("获取封面 id: {:?}", doc.get_cover_id());
-    println!("\n[INFO] 书籍资源:");
+    println!("[\nINFO](eupb.rs) 获取封面 id: {:?}", doc.get_cover_id());
+    println!("\n[INFO](epub.rs) 书籍资源:");
     for (key, (path, mime)) in doc.resources.iter() {
         println!("- 资源ID: {}, 路径: {:?}, MIME类型: {}", key, path, mime);
     }
@@ -29,7 +29,7 @@ pub fn parse_epub(file_path: &Path) -> Result<String, Box<dyn std::error::Error>
         println!("- {:?}", id);
     }
 
-    println!("\n目录结构:");
+    println!("\n[INFO](epub.rs) 目录结构:");
     for nav_point in doc.toc.iter() {
         println!(
             "--|\n  + 标签: {:?}, \n  + 内容: {:?}, \n  + 顺序: {:?}",
@@ -37,7 +37,7 @@ pub fn parse_epub(file_path: &Path) -> Result<String, Box<dyn std::error::Error>
         );
     }
 
-    println!("\n目录结构和内容预览:");
+    println!("\n[INFO](epub.rs) 目录结构和内容预览:");
 
     // 克隆 toc 以避免借用冲突
     let toc_clone = doc.toc.clone();
@@ -116,10 +116,13 @@ fn read_page() -> Result<String, Box<dyn std::error::Error>> {
 
     // 使用 if let 解构 Option
     if let Some((content, _mime)) = doc.get_resource_str(resource_id) {
-        println!("文件内容:\n{}", content);
+        println!("[INFO](epub.rs) 文件内容:\n{}", content);
         Ok(content) // 返回内容
     } else {
-        println!("无法找到资源 '{}'", resource_id);
-        Err(Box::from(format!("无法找到资源 '{}'", resource_id))) // 返回错误
+        println!("[ERROR](epub.rs) 无法找到资源 '{}'", resource_id);
+        Err(Box::from(format!(
+            "[ERROR](epub.rs) 无法找到资源 '{}'",
+            resource_id
+        ))) // 返回错误
     }
 }
